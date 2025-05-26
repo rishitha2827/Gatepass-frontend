@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// 🔁 Use your deployed backend URL
+const API_BASE_URL = 'https://gatepass-backend.vercel.app';
+
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: `${API_BASE_URL}/api`,
 });
 
 API.interceptors.request.use((req) => {
