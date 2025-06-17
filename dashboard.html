@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HOD Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyP9OXmEqrHXzfgoq3pe3MzwbeX1i-Vg7-4g&s');
+      background-size: cover;
+      background-position: center;
+      filter: blur(10px);
+      z-index: -1;
+    }
+
+    header {
+      background-color: #1e3c72;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.7rem;
+      position: relative;
+      z-index: 1;
+      font-weight: bold;
+      overflow: hidden;
+    }
+
+    .typewriter-text {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid white;
+      animation: typing 4s steps(60, end), blink 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.8);
+      gap: 1rem;
+      padding: 1rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    nav button {
+      background: none;
+      border: 2px solid #fff;
+      border-radius: 25px;
+      color: white;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.3s ease;
+    }
+
+    nav button:hover,
+    nav button.active {
+      background-color: #03a9f4;
+      border-color: #03a9f4;
+    }
+
+    section {
+      display: none;
+      height: calc(100vh - 148px);
+      padding: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    .login-box {
+      width: 350px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      margin: auto;
+      margin-top: 1rem;
+      backdrop-filter: blur(5px);
+    }
+
+    .heading {
+      color: #fff;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .input-box {
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .input-box label {
+      font-size: 13px;
+      color: #fff;
+    }
+
+    .input-box input,
+    .input-box select {
+      width: 100%;
+      padding: 7px;
+      font-size: 13px;
+      color: white;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid #03a9f4;
+      outline: none;
+    }
+
+    .input-box input::placeholder {
+      color: #03a9f4;
+    }
+
+    .input-box input:focus,
+    .input-box select:focus {
+      border-bottom: 2px solid #fff;
+    }
+
+    .input-box select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      background-size: 16px 16px;
+      padding-right: 24px;
+    }
+
+    .input-box select option {
+      background-color: #000;
+      color: #fff;
+    }
+
+    input[type="submit"] {
+      background: #03a9f4;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background: #0288d1;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    table, th, td {
+      border: 1px solid #999;
+    }
+
+    th, td {
+      padding: 0.5rem;
+      text-align: center;
+    }
+
+    th {
+      background-color: #e0e0e0;
+    }
+
+    .section-heading {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ffeb3b;
+      background-color: #2196f3;
+      padding: 10px;
+      border-radius: 8px;
+      text-shadow: 1px 1px 2px black;
+      text-align: center;
+      margin-bottom: 1rem;
+      opacity: 0;
+      transform: translateY(-15px);
+      animation: slideInFade 1s ease-out forwards;
+    }
+
+    @keyframes slideInFade {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .walking-girl {
+      position: fixed;
+      bottom: 10px;
+      left: -200px;
+      z-index: 10;
+      animation: walkAcross 20s linear infinite;
+    }
+
+    .walking-girl img {
+      height: 400px;
+    }
+
+    @keyframes walkAcross {
+      from { left: -200px; }
+      to { left: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+
+  <header>
+    <span class="typewriter-text">★ Vignan's Institute of Engineering for Women - HOD DASHBOARD ★</span>
+  </header>
+
+  <nav>
+    <button class="active" onclick="showSection('createView', this)">Create Pass</button>
+    <button onclick="showSection('requestsView', this)">Unchecked Passes</button>
+    <button onclick="showSection('issuedView', this)">Pass History</button>
+  </nav>
+
+  <section id="createView" class="active">
+    <form id="createPassForm" class="login-box" onsubmit="handleSubmit(event)">
+      <h2 class="heading">Issue New Pass</h2>
+
+      <div class="input-box">
+        <label for="student_name">Roll No</label>
+        <input type="text" name="student_name" id="student_name" required placeholder="Enter Roll No">
+      </div>
+
+      <div class="input-box">
+        <label for="reason">Reason</label>
+        <input type="text" name="reason" id="reason" required placeholder="Enter Reason">
+      </div>
+
+      <div class="input-box">
+        <label for="year">Year of Study</label>
+        <select name="year" id="year" required>
+          <option value="" disabled selected>Select Year</option>
+          <option value="1">1st Year</option>
+          <option value="2">2nd Year</option>
+          <option value="3">3rd Year</option>
+          <option value="4">4th Year</option>
+        </select>
+      </div>
+
+      <div class="input-box">
+        <label for="branch">Branch</label>
+        <select name="branch" id="branch" required>
+          <option value="" disabled selected>Select Branch</option>
+          <option value="CSE">CSE</option>
+          <option value="ECE">ECE</option>
+          <option value="EEE">EEE</option>
+          <option value="MECH">MECH</option>
+        </select>
+      </div>
+
+      <div class="input-box">
+        <label for="time">Out Time</label>
+        <input type="time" name="time" id="time" required>
+      </div>
+
+      <div class="input-box">
+        <label for="date">Date</label>
+        <input type="date" name="date" id="date" required>
+      </div>
+
+      <input type="submit" value="Submit">
+    </form>
+  </section>
+
+  <section id="requestsView">
+    <h2 class="section-heading">People Yet To Leave The Campus</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Roll No</th>
+          <th>Branch</th>
+          <th>Year</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Reason</th>
+          <th>Approve</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="issuedView">
+    <h2 class="section-heading">Previous Data</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Roll No</th>
+          <th>Branch</th>
+          <th>Year</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Reason</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <div class="walking-girl">
+    <img src="gifff-unscreen.gif" alt="Walking Girl">
+  </div>
+
+  <script>
+    const uncheckedPasses = [];
+    const issuedPasses = [];
+
+    function showSection(id, btn) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (id === "requestsView") renderUncheckedPasses();
+      if (id === "issuedView") renderIssuedPasses();
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      const roll = document.getElementById("student_name").value.trim();
+      const reason = document.getElementById("reason").value.trim();
+      const year = document.getElementById("year").value;
+      const branch = document.getElementById("branch").value;
+      const time = document.getElementById("time").value;
+      const date = document.getElementById("date").value;
+
+      const newPass = { roll, reason, year, branch, time, date };
+      uncheckedPasses.push(newPass);
+
+      alert("Outpass issued successfully!");
+      document.getElementById("createPassForm").reset();
+    }
+
+    function renderUncheckedPasses() {
+      const tbody = document.querySelector("#requestsView tbody");
+      tbody.innerHTML = "";
+
+      uncheckedPasses.forEach((pass, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${pass.roll}</td>
+          <td>${pass.branch}</td>
+          <td>${pass.year}</td>
+          <td>${pass.date}</td>
+          <td>${pass.time}</td>
+          <td>${pass.reason}</td>
+          <td><button onclick="approvePass(${index})">Approve</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderIssuedPasses() {
+      const tbody = document.querySelector("#issuedView tbody");
+      tbody.innerHTML = "";
+
+      issuedPasses.forEach(pass => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${pass.roll}</td>
+          <td>${pass.branch}</td>
+          <td>${pass.year}</td>
+          <td>${pass.date}</td>
+          <td>${pass.time}</td>
+          <td>${pass.reason}</td>
+          <td>Approved</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function approvePass(index) {
+      const approved = uncheckedPasses.splice(index, 1)[0];
+      issuedPasses.push(approved);
+      renderUncheckedPasses();
+      alert("Pass approved and moved to history.");
+    }
+  </script>
+</body>
+</html>
