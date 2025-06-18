@@ -34,6 +34,24 @@
       position: relative;
     }
 
+    .logout-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.4rem 1rem;
+      background-color: #ff1744;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: #d50000;
+    }
+
     .typewriter-text {
       display: inline-block;
       white-space: nowrap;
@@ -123,8 +141,6 @@
     }
 
     /* ===================== Responsive Media Queries ===================== */
-
-    /* Tablets (768px and below) */
     @media (max-width: 768px) {
       header {
         font-size: 1.2rem;
@@ -145,9 +161,15 @@
       .walking-girl img {
         height: 250px;
       }
+
+      .logout-btn {
+        top: 0.6rem;
+        right: 0.6rem;
+        font-size: 0.8rem;
+        padding: 0.3rem 0.7rem;
+      }
     }
 
-    /* Mobile phones (480px and below) */
     @media (max-width: 480px) {
       header {
         font-size: 1rem;
@@ -168,9 +190,9 @@
         padding: 0.3rem;
       }
 
-      th:nth-child(3), td:nth-child(3), /* Year */
-      th:nth-child(6), td:nth-child(6), /* Reason */
-      th:nth-child(7), td:nth-child(7)  /* Issued By */ {
+      th:nth-child(3), td:nth-child(3),
+      th:nth-child(6), td:nth-child(6),
+      th:nth-child(7), td:nth-child(7) {
         display: none;
       }
 
@@ -183,7 +205,6 @@
       }
     }
 
-    /* Large Screens (Desktops and up) */
     @media (min-width: 1200px) {
       header {
         font-size: 2rem;
@@ -201,7 +222,6 @@
         height: 400px;
       }
     }
-
   </style>
 </head>
 <body>
@@ -209,6 +229,7 @@
 
   <header>
     <span class="typewriter-text">★ Vignan's Institute Of Engineering for Women ★</span>
+    <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
   </header>
 
   <div class="container">
@@ -235,11 +256,6 @@
   </div>
 
   <script>
-    const passes = [
-      { name: "Sneha", branch: "CSE", year: "3", date: "17-06-2025", time: "02:30 PM", reason: "Hospital", issued_by: "HOD" },
-      { name: "Riya", branch: "ECE", year: "2", date: "17-06-2025", time: "03:00 PM", reason: "Bank", issued_by: "Warden" },
-      { name: "Ananya", branch: "EEE", year: "4", date: "17-06-2025", time: "04:00 PM", reason: "Shopping", issued_by: "HOD" }
-    ];
 
     function renderTable() {
       const tbody = document.getElementById('passTableBody');
