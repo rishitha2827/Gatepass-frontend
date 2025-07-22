@@ -93,6 +93,8 @@
       margin-top: 1rem;
       backdrop-filter: blur(5px);
       text-align: center;
+      position: relative;
+      z-index: 5;
     }
     .heading {
       color: #fff;
@@ -179,12 +181,13 @@
       to { opacity: 1; transform: translateY(0); }
     }
     .walking-girl {
-      position: fixed;
-      bottom: 10px;
-      left: -200px;
-      animation: walkAcross 20s linear infinite;
-      z-index: 10;
-    }
+  position: fixed;
+  bottom: 10px;
+  left: -200px;
+  animation: walkAcross 20s linear infinite;
+  z-index: 1; /* Lowered from 10 to 1 */
+}
+
     .walking-girl img {
       height: 400px;
     }
@@ -467,12 +470,21 @@ if (reason === "Others") {
       document.getElementById("searchRoll").value = "";
       renderIssuedTable(allIssuedData);
     }
+   window.onload = () => {
+  const now = new Date();
+  const localTime = now.toTimeString().slice(0, 5); // Format HH:MM
+  const today = now.toISOString().split("T")[0];    // Format YYYY-MM-DD
 
-    window.onload = () => {
-      const today = new Date().toISOString().split("T")[0];
-      document.getElementById("date").setAttribute("min", today);
-      document.getElementById("date").setAttribute("max", today);
-    };
+  const timeInput = document.getElementById("time");
+  const dateInput = document.getElementById("date");
+
+  timeInput.value = localTime;
+  dateInput.value = today;
+
+  timeInput.setAttribute("readonly", "true");
+  dateInput.setAttribute("readonly", "true");
+};
+
     function handleReasonChange(select) {
   const otherBox = document.getElementById("otherReasonBox");
   const otherInput = document.getElementById("otherReason");
