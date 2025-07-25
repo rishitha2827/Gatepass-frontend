@@ -5,12 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HOD Dashboard</title>
   <style>
+    /* Basic reset and body styling */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
       height: 100%;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
+      overflow: hidden; /* Prevents scrolling on the main page */
+      font-family: 'Inter', Arial, sans-serif; /* Using Inter font as per instructions */
     }
+
+    /* Background image with blur effect */
     .background {
       position: fixed;
       top: 0; left: 0;
@@ -19,46 +22,54 @@
       background-size: cover;
       background-position: center;
       filter: blur(10px);
-      z-index: -1;
+      z-index: -1; /* Puts it behind other content */
     }
+
+    /* Header styling */
     header {
-      background-color: #1e3c72;
+      background-color: #1e3c72; /* Dark blue */
       color: #fff;
       padding: 1rem;
       text-align: center;
       font-size: 1.7rem;
       font-weight: bold;
       position: relative;
-      z-index: 1;
+      z-index: 1; /* Ensures header is above background */
     }
+
+    /* Logout button styling */
     .logout-btn {
       position: absolute;
       top: 1rem;
       right: 1rem;
-      background-color: #f44336;
+      background-color: #f44336; /* Red */
       color: #fff;
       border: none;
       padding: 8px 16px;
-      border-radius: 20px;
+      border-radius: 20px; /* Rounded corners */
       cursor: pointer;
       font-weight: bold;
       transition: background-color 0.3s ease;
-      z-index: 10;
+      z-index: 10; /* Ensures button is on top */
     }
-    .logout-btn:hover { background-color: #d32f2f; }
+    .logout-btn:hover { background-color: #d32f2f; } /* Darker red on hover */
+
+    /* Typewriter effect for header text */
     .typewriter-text {
       display: inline-block;
       white-space: nowrap;
       overflow: hidden;
-      border-right: 2px solid white;
+      border-right: 2px solid white; /* Blinking cursor */
       animation: typing 4s steps(60, end), blink 0.75s step-end infinite;
     }
     @keyframes typing { from { width: 0 } to { width: 100% } }
     @keyframes blink { 50% { border-color: transparent } }
+
+    /* Navigation bar styling */
     nav {
       display: flex;
       justify-content: center;
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
       gap: 1rem;
       padding: 1rem 0;
       z-index: 1;
@@ -66,7 +77,7 @@
     nav button {
       background: none;
       border: 2px solid #fff;
-      border-radius: 25px;
+      border-radius: 25px; /* Rounded buttons */
       color: white;
       padding: 0.5rem 1rem;
       cursor: pointer;
@@ -74,31 +85,42 @@
       transition: 0.3s ease;
     }
     nav button:hover, nav button.active {
-      background-color: #03a9f4;
+      background-color: #03a9f4; /* Blue on hover/active */
       border-color: #03a9f4;
     }
+
+    /* Section styling (hidden by default, shown when active) */
     section {
       display: none;
-      height: calc(100vh - 148px);
+      height: calc(100vh - 148px); /* Full height minus header and nav */
       padding: 1rem;
       z-index: 1;
+      overflow-y: auto; /* Enable scrolling for content within sections */
     }
     section.active { display: block; }
+
+    /* Login box (form container) styling */
     .login-box {
       width: 350px;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
       padding: 1.5rem;
       border-radius: 10px;
-      margin: auto;
+      margin: auto; /* Center horizontally */
       margin-top: 1rem;
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px); /* Frosted glass effect */
       text-align: center;
+      position: relative;
+      z-index: 5;
     }
+
+    /* Form heading */
     .heading {
       color: #fff;
       font-size: 1.4rem;
       margin-bottom: 1rem;
     }
+
+    /* Input box container */
     .input-box {
       margin-bottom: 12px;
       text-align: left;
@@ -115,28 +137,33 @@
       color: white;
       background: transparent;
       border: none;
-      border-bottom: 2px solid #03a9f4;
+      border-bottom: 2px solid #03a9f4; /* Blue underline */
       outline: none;
+      border-radius: 4px 4px 0 0; /* Rounded top corners for inputs */
     }
     .input-box input::placeholder {
       color: #03a9f4;
     }
     .input-box input:focus,
     .input-box select:focus {
-      border-bottom: 2px solid #fff;
+      border-bottom: 2px solid #fff; /* White underline on focus */
     }
+
+    /* Select dropdown custom arrow */
     .input-box select {
-      appearance: none;
+      appearance: none; /* Remove default arrow */
       background-image: url("data:image/svg+xml,%3Csvg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 8px center;
       background-size: 16px 16px;
-      padding-right: 24px;
+      padding-right: 24px; /* Space for custom arrow */
     }
     .input-box select option {
-      background-color: #000;
+      background-color: #000; /* Black background for options */
       color: #fff;
     }
+
+    /* Submit button styling */
     input[type="submit"] {
       background: #03a9f4;
       width: 100%;
@@ -149,23 +176,32 @@
       transition: 0.3s ease;
     }
     input[type="submit"]:hover { background: #0288d1; }
+
+    /* Table styling */
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+      border-radius: 8px; /* Rounded corners for table */
+      overflow: hidden; /* Ensures rounded corners apply to borders */
     }
     table, th, td { border: 1px solid #999; }
     th, td {
       padding: 0.5rem;
       text-align: center;
     }
-    th { background-color: #e0e0e0; }
+    th {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+
+    /* Section heading styling with animation */
     .section-heading {
       font-size: 24px;
       font-weight: bold;
-      color: #ffeb3b;
-      background-color: #2196f3;
+      color: #ffeb3b; /* Yellow */
+      background-color: #2196f3; /* Blue */
       padding: 10px;
       border-radius: 8px;
       text-shadow: 1px 1px 2px black;
@@ -178,32 +214,37 @@
     @keyframes slideInFade {
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Walking girl animation */
     .walking-girl {
       position: fixed;
       bottom: 10px;
-      left: -200px;
+      left: -200px; /* Start off-screen */
       animation: walkAcross 20s linear infinite;
-      z-index: 10;
+      z-index: 1; /* Ensures it's above background but below main content */
     }
     .walking-girl img {
       height: 400px;
     }
     @keyframes walkAcross {
       from { left: -200px; }
-      to { left: 100%; }
+      to { left: 100%; } /* Moves across the screen */
     }
 
+    /* Search container for pass history */
     .search-container {
       display: flex;
       justify-content: flex-end;
       gap: 10px;
       margin-bottom: 10px;
+      padding: 0 1rem; /* Add padding for consistency */
     }
     .search-container input {
       padding: 8px;
       border-radius: 5px;
       border: 1px solid #ccc;
       outline: none;
+      width: 200px; /* Fixed width for search input */
     }
     .search-container button {
       padding: 8px 12px;
@@ -212,21 +253,88 @@
       background-color: #2196f3;
       color: white;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
     .search-container button:hover {
       background-color: #0d8bf2;
     }
+
+    /* Print specific styles */
     @media print {
       body * {
-        visibility: hidden;
+        visibility: hidden; /* Hide everything by default */
       }
       #issuedView, #issuedView * {
-        visibility: visible;
+        visibility: visible; /* Show only the issuedView section */
       }
       #issuedView {
         position: absolute;
         top: 0;
         left: 0;
+        width: 100%; /* Ensure it takes full width for printing */
+        height: auto; /* Adjust height based on content */
+        overflow: visible; /* Allow content to flow for printing */
+        padding: 0; /* Remove padding for print */
+      }
+      #issuedView .search-container {
+        display: none; /* Hide search bar when printing */
+      }
+      table {
+        background: #fff; /* White background for print */
+        border: 1px solid #000;
+      }
+      th, td {
+        border: 1px solid #000;
+        color: #000;
+      }
+      .section-heading {
+        color: #000;
+        background-color: #fff;
+        text-shadow: none;
+        border: 1px solid #000;
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      header {
+        font-size: 1.2rem;
+        padding: 0.8rem;
+      }
+      .logout-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
+      nav {
+        flex-wrap: wrap;
+        padding: 0.8rem;
+        gap: 0.5rem;
+      }
+      nav button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+      }
+      .login-box {
+        width: 90%;
+        margin-top: 0.5rem;
+        padding: 1rem;
+      }
+      .section-heading {
+        font-size: 20px;
+      }
+      .walking-girl img {
+        height: 250px; /* Smaller on mobile */
+      }
+      .search-container {
+        flex-direction: column;
+        align-items: flex-end;
+        padding: 0 0.5rem;
+      }
+      .search-container input {
+        width: 100%;
+      }
+      .search-container button {
+        width: 100%;
       }
     }
   </style>
@@ -249,29 +357,29 @@
     <form id="createPassForm" class="login-box" onsubmit="handleSubmit(event)">
       <h2 class="heading">Issue New Pass</h2>
       <div class="input-box">
-        <label for="student_name">Roll No</label>
-        <input type="text" name="student_name" id="student_name" required placeholder="e.g. 22NM1A05C3"
+        <label for="rollno">Roll No</label>
+        <input type="text" name="rollno" id="rollno" required placeholder="e.g. 22NM1A05C3 or 23NM5A0518"
                pattern="[0-9]{2}[nN][mM][0-9][A-Za-z].{4}" minlength="10" maxlength="10"
-               oninput="this.value = this.value.toUpperCase()" />
+               oninput="this.value = this.value.toUpperCase(); autoFillBranchAndYear();" />
       </div>
       <div class="input-box">
-  <label for="reason">Reason</label>
-  <select name="reason" id="reason" required onchange="handleReasonChange(this)">
-    <option value="" disabled selected>Select Reason</option>
-    <option value="Medical Emergency">Medical Emergency</option>
-    <option value="Personal Work">Personal Work</option>
-    <option value="Home Visit">Home Visit</option>
-    <option value="Family Function">Family Function</option>
-    <option value="Bank Work">Bank Work</option>
-    <option value="Others">Others</option>
-  </select>
-</div>
+        <label for="reason">Reason</label>
+        <select name="reason" id="reason" required onchange="handleReasonChange(this)">
+          <option value="" disabled selected>Select Reason</option>
+          <option value="Medical Emergency">Medical Emergency</option>
+          <option value="Personal Work">Personal Work</option>
+          <option value="Home Visit">Home Visit</option>
+          <option value="Family Function">Family Function</option>
+          <option value="Bank Work">Bank Work</option>
+          <option value="Others">Others</option>
+        </select>
+      </div>
 
-<div class="input-box" id="otherReasonBox" style="display: none;">
-  <label for="otherReason">Specify Other Reason</label>
-  <input type="text" id="otherReason" placeholder="Enter reason" />
-</div>
-      
+      <div class="input-box" id="otherReasonBox" style="display: none;">
+        <label for="otherReason">Specify Other Reason</label>
+        <input type="text" id="otherReason" placeholder="Enter reason" />
+      </div>
+
       <div class="input-box">
         <label for="year">Year of Study</label>
         <select name="year" id="year" required>
@@ -285,15 +393,19 @@
       <div class="input-box">
         <label for="branch">Branch</label>
         <select name="branch" id="branch" required>
-          <option value="" disabled selected>Select Branch</option>
+          <option value="">--Select Branch--</option>
           <option value="CSE">CSE</option>
           <option value="ECE">ECE</option>
           <option value="EEE">EEE</option>
           <option value="MECH">MECH</option>
+          <option value="CIVIL">CIVIL</option>
+          <option value="CSD">CSD</option>
+          <option value="CSM">CSM</option>
+          <option value="CAI">CAI</option>
+          <option value="CSC">CSC</option>
           <option value="IT">IT</option>
-          <option value="MBA">MBA</option>
-          <option value="MCA">MCA</option>
-          <option value="BSH">BS&H</option>
+          <Option value='MBA'>MBA</Option>
+          <Option value='MCA'>MCA</Option>
         </select>
       </div>
       <div class="input-box">
@@ -304,6 +416,7 @@
         <label for="date">Date</label>
         <input type="date" name="date" id="date" required>
       </div>
+
       <input type="submit" value="Submit">
     </form>
   </section>
@@ -355,144 +468,312 @@
   </div>
 
   <script>
-    const API_BASE_URL = "https://gatepass-backend.vercel.app";
-    const token = localStorage.getItem("token");
-    let allIssuedData = [];
+  const API_BASE_URL = "https://gatepass-backend.vercel.app";
+  const token = localStorage.getItem("token");
+  let allIssuedData = [];
 
-    if (!token) {
-      alert("Unauthorized! Please login again.");
-      window.location.href = "index.html";
+  if (!token) {
+    showMessageBox("Unauthorized! Please login again.");
+    window.location.href = "/";
+  }
+
+  function showMessageBox(message) {
+    const messageBox = document.createElement('div');
+    messageBox.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 1000;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      font-size: 1.1rem;
+    `;
+    messageBox.textContent = message;
+    document.body.appendChild(messageBox);
+    setTimeout(() => {
+      document.body.removeChild(messageBox);
+    }, 3000);
+  }
+
+  function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  }
+
+  function showSection(id, btn) {
+    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    if (id === "requestsView") loadUncheckedPasses();
+    if (id === "issuedView") loadIssuedPasses();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const rollInput = document.getElementById("rollno");
+    const now = new Date();
+    const localTime = now.toTimeString().slice(0, 5);
+    const today = now.toISOString().split("T")[0];
+
+    document.getElementById("time").value = localTime;
+    document.getElementById("date").value = today;
+    document.getElementById("time").setAttribute("readonly", "true");
+    document.getElementById("date").setAttribute("readonly", "true");
+
+    autoFillBranchAndYear();
+    rollInput.addEventListener('input', autoFillBranchAndYear);
+  });
+
+  function autoFillBranchAndYear() {
+    const rollInput = document.getElementById("rollno");
+    const branchSelect = document.getElementById("branch");
+    const yearSelect = document.getElementById("year");
+    const roll = rollInput.value.trim().toUpperCase();
+
+    branchSelect.value = "";
+    yearSelect.value = "";
+    [...yearSelect.options].forEach(opt => opt.style.display = "block");
+
+    if (roll.length >= 10) {
+      const admissionYearLastTwoDigits = parseInt(roll.substring(0, 2), 10);
+      const courseCode = roll.substring(6, 8);
+      const specialChar = roll.charAt(5);
+      const leIndicator = roll.charAt(4);
+
+      const currentYear = new Date().getFullYear();
+      const currentMonth = new Date().getMonth();
+
+      let currentAcademicYear = currentYear;
+      if (currentMonth < 6) currentAcademicYear = currentYear - 1;
+
+      const admissionYearFull = 2000 + admissionYearLastTwoDigits;
+      let calculatedYear = currentAcademicYear - admissionYearFull + 1;
+
+      let isLateralEntry = false;
+      let isPGCourse = false;
+
+      let branch = '';
+      const branchMap = {
+        '05': 'CSE', '44': 'CSD', '04': 'ECE', '02': 'EEE', '03': 'MECH',
+        '00': 'MBA', '42': 'CSM', '30': 'CAI', '46': 'CSC', '12': 'IT', '01': 'CIVIL'
+      };
+      branch = branchMap[courseCode];
+
+      if (branch === 'MBA' && specialChar === 'F') {
+        branch = 'MCA';
+        isPGCourse = true;
+      } else if (branch === 'MBA') {
+        isPGCourse = true;
+      }
+
+      if (leIndicator === '5' && !isPGCourse) {
+        isLateralEntry = true;
+        calculatedYear += 1;
+      }
+
+      branchSelect.value = branch || "";
+      if (calculatedYear > 0) {
+        if (isPGCourse) {
+          if (calculatedYear <= 2) yearSelect.value = calculatedYear.toString();
+          [...yearSelect.options].forEach(opt => {
+            if (opt.value === "3" || opt.value === "4") {
+              opt.style.display = "none";
+            }
+          });
+        } else {
+          if (calculatedYear <= 4) yearSelect.value = calculatedYear.toString();
+          [...yearSelect.options].forEach(opt => opt.style.display = "block");
+        }
+      }
     }
+  }
 
-    function logout() {
-      localStorage.removeItem("token");
-      window.location.href = "index.html";
-    }
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-    function showSection(id, btn) {
-      document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
-      document.getElementById(id).classList.add("active");
-      document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      if (id === "requestsView") loadUncheckedPasses();
-      if (id === "issuedView") loadIssuedPasses();
-    }
-
-    async function handleSubmit(e) {
-      e.preventDefault();
-      const rollno = document.getElementById("student_name").value.trim();
-      let reason = document.getElementById("reason").value.trim();
-if (reason === "Others") {
-  reason = document.getElementById("otherReason").value.trim();
-}
-      const year = document.getElementById("year").value;
-      const branch = document.getElementById("branch").value;
-      const time = document.getElementById("time").value;
-      const date = document.getElementById("date").value;
-      const passData = { rollno, reason, year, branch, time, date };
-
-      try {
-        const res = await fetch(`${API_BASE_URL}/api/pass/create`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify(passData)
-        });
-        if (!res.ok) throw new Error("Failed to create pass");
-        alert("Pass issued successfully!");
-        document.getElementById("createPassForm").reset();
-      } catch (err) {
-        console.error(err);
-        alert("Error creating pass.");
+    const rollno = document.getElementById("rollno").value.trim();
+    let reason = document.getElementById("reason").value.trim();
+    if (reason === "Others") {
+      reason = document.getElementById("otherReason").value.trim();
+      if (!reason) {
+        showMessageBox("Please specify the reason for 'Others'.");
+        return;
       }
     }
 
-    async function loadUncheckedPasses() {
-      const tbody = document.querySelector("#requestsView tbody");
-      tbody.innerHTML = "";
-      try {
-        const res = await fetch(`${API_BASE_URL}/api/pass/hod/unchecked`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const data = await res.json();
-        data.forEach(pass => {
-          const row = document.createElement("tr");
-          row.innerHTML = `<td>${pass.rollno}</td><td>${pass.branch}</td><td>${pass.year}</td><td>${pass.date}</td><td>${pass.time}</td><td>${pass.reason}</td><td>Pending</td>`;
-          tbody.appendChild(row);
-        });
-      } catch (err) {
-        console.error(err);
-      }
+    const year = document.getElementById("year").value;
+    const branch = document.getElementById("branch").value;
+    const time = document.getElementById("time").value;
+    const date = document.getElementById("date").value;
+
+    if (!year) {
+      showMessageBox("Year of study could not be determined. Please select manually if needed.");
+      return;
+    }
+    if (!branch) {
+      showMessageBox("Branch could not be determined. Please select manually if needed.");
+      return;
     }
 
-    async function loadIssuedPasses() {
-      const tbody = document.querySelector("#issuedView tbody");
-      tbody.innerHTML = "";
-      try {
-        const res = await fetch(`${API_BASE_URL}/api/pass/hod/history`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const data = await res.json();
-        allIssuedData = data;
-        renderIssuedTable(data);
-      } catch (err) {
-        console.error(err);
-      }
-    }
+    const formData = { rollno, reason, year, branch, time, date };
 
-    function renderIssuedTable(data) {
-      const tbody = document.querySelector("#issuedView tbody");
-      tbody.innerHTML = "";
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/pass/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to create pass");
+      }
+
+      showMessageBox("Pass issued successfully!");
+      document.getElementById("createPassForm").reset();
+      document.getElementById("otherReasonBox").style.display = "none";
+      document.getElementById("otherReason").value = "";
+
+      const now = new Date();
+      const localTime = now.toTimeString().slice(0, 5);
+      const today = now.toISOString().split("T")[0];
+      document.getElementById("time").value = localTime;
+      document.getElementById("date").value = today;
+
+    } catch (err) {
+      console.error("Error creating pass:", err);
+      showMessageBox(`Error creating pass: ${err.message}. Please try again.`);
+    }
+  }
+
+  async function loadUncheckedPasses() {
+    const tbody = document.querySelector("#requestsView tbody");
+    tbody.innerHTML = "";
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/pass/hod/unchecked`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error("Failed to load unchecked passes");
+      const data = await res.json();
       if (data.length === 0) {
         const row = document.createElement("tr");
-        row.innerHTML = `<td colspan="7">No records found.</td>`;
+        row.innerHTML = `<td colspan="7">No unchecked passes found.</td>`;
         tbody.appendChild(row);
         return;
       }
       data.forEach(pass => {
         const row = document.createElement("tr");
-        row.innerHTML = `<td>${pass.rollno}</td><td>${pass.branch}</td><td>${pass.year}</td><td>${pass.date}</td><td>${pass.time}</td><td>${pass.reason}</td><td>Approved</td>`;
+        row.innerHTML = `
+          <td>${pass.rollno}</td>
+          <td>${pass.branch}</td>
+          <td>${pass.year}</td>
+          <td>${pass.date}</td>
+          <td>${pass.time}</td>
+          <td>${pass.reason}</td>
+          <td>Pending</td>`;
         tbody.appendChild(row);
       });
+    } catch (err) {
+      console.error("Error loading unchecked passes:", err);
+      showMessageBox("Failed to load unchecked passes.");
     }
-
-    function searchIssuedPass() {
-  const value = document.getElementById("searchRoll").value.trim().toUpperCase();
-  const filtered = allIssuedData.filter(pass => pass.rollno.toUpperCase() === value);
-  renderIssuedTable(filtered);
-  alert(`No. of times student left in the month is ${filtered.length}`);
-}
-
-
-    function resetIssuedPasses() {
-      document.getElementById("searchRoll").value = "";
-      renderIssuedTable(allIssuedData);
-    }
-   window.onload = () => {
-  const now = new Date();
-  const localTime = now.toTimeString().slice(0, 5); // Format HH:MM
-  const today = now.toISOString().split("T")[0];    // Format YYYY-MM-DD
-
-  const timeInput = document.getElementById("time");
-  const dateInput = document.getElementById("date");
-
-  timeInput.value = localTime;
-  dateInput.value = today;
-
-  timeInput.setAttribute("readonly", "true");
-  dateInput.setAttribute("readonly", "true");
-};
-
-    function handleReasonChange(select) {
-  const otherBox = document.getElementById("otherReasonBox");
-  const otherInput = document.getElementById("otherReason");
-  if (select.value === "Others") {
-    otherBox.style.display = "block";
-    otherInput.setAttribute("required", "true");
-  } else {
-    otherBox.style.display = "none";
-    otherInput.removeAttribute("required");
   }
-}
-  </script>
+
+  async function loadIssuedPasses() {
+    const tbody = document.querySelector("#issuedView tbody");
+    tbody.innerHTML = "";
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/pass/hod/history`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error("Failed to load issued passes");
+      const data = await res.json();
+      allIssuedData = data;
+      renderIssuedTable(data);
+    } catch (err) {
+      console.error("Error loading issued passes:", err);
+      showMessageBox("Failed to load pass history.");
+    }
+  }
+
+  function renderIssuedTable(data) {
+    const tbody = document.querySelector("#issuedView tbody");
+    tbody.innerHTML = "";
+    if (data.length === 0) {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td colspan="7">No records found.</td>`;
+      tbody.appendChild(row);
+      return;
+    }
+    data.forEach(pass => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${pass.rollno}</td>
+        <td>${pass.branch}</td>
+        <td>${pass.year}</td>
+        <td>${pass.date}</td>
+        <td>${pass.time}</td>
+        <td>${pass.reason}</td>
+        <td>Approved</td>`;
+      tbody.appendChild(row);
+    });
+  }
+
+  function searchIssuedPass() {
+    const value = document.getElementById("searchRoll").value.trim().toUpperCase();
+    if (!value) {
+      showMessageBox("Please enter a roll number to search.");
+      return;
+    }
+
+    const filtered = allIssuedData.filter(pass => pass.rollno.toUpperCase() === value);
+
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+
+    const currentMonthPasses = filtered.filter(pass => {
+      const passDate = new Date(pass.date);
+      return passDate.getMonth() === currentMonth && passDate.getFullYear() === currentYear;
+    });
+
+    if (currentMonthPasses.length > 3) {
+      alert(`⚠️ Limit Exceeded: This student has left ${currentMonthPasses.length} times this month.`);
+    }
+
+    renderIssuedTable(filtered);
+    showMessageBox(`No. of times student left in the month is ${currentMonthPasses.length}`);
+  }
+
+  function resetIssuedPasses() {
+    document.getElementById("searchRoll").value = "";
+    renderIssuedTable(allIssuedData);
+  }
+
+  function handleReasonChange(select) {
+    const otherBox = document.getElementById("otherReasonBox");
+    const otherInput = document.getElementById("otherReason");
+    if (select.value === "Others") {
+      otherBox.style.display = "block";
+      otherInput.setAttribute("required", "true");
+    } else {
+      otherBox.style.display = "none";
+      otherInput.removeAttribute("required");
+      otherInput.value = "";
+    }
+  }
+
+  function getHodRoleFromToken() { return null; }
+  function populateBranchDropdown(hodRole) {}
+</script>
+
 </body>
 </html>
