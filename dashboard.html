@@ -539,7 +539,7 @@
     yearSelect.value = "";
     [...yearSelect.options].forEach(opt => opt.style.display = "block");
 
-    if (roll.length >= 10) {
+    if (roll.length === 10) {
       const admissionYearLastTwoDigits = parseInt(roll.substring(0, 2), 10);
       const courseCode = roll.substring(6, 8);
       const specialChar = roll.charAt(5);
