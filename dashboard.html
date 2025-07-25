@@ -93,8 +93,6 @@
       margin-top: 1rem;
       backdrop-filter: blur(5px);
       text-align: center;
-      position: relative;
-      z-index: 5;
     }
     .heading {
       color: #fff;
@@ -181,13 +179,12 @@
       to { opacity: 1; transform: translateY(0); }
     }
     .walking-girl {
-  position: fixed;
-  bottom: 10px;
-  left: -200px;
-  animation: walkAcross 20s linear infinite;
-  z-index: 1; /* Lowered from 10 to 1 */
-}
-
+      position: fixed;
+      bottom: 10px;
+      left: -200px;
+      animation: walkAcross 20s linear infinite;
+      z-index: 10;
+    }
     .walking-girl img {
       height: 400px;
     }
