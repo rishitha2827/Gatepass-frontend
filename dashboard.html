@@ -594,65 +594,95 @@
   }
 
   async function handleSubmit(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const rollno = document.getElementById("rollno").value.trim();
-    let reason = document.getElementById("reason").value.trim();
-    if (reason === "Others") {
-      reason = document.getElementById("otherReason").value.trim();
-      if (!reason) {
-        showMessageBox("Please specify the reason for 'Others'.");
-        return;
-      }
-    }
-
-    const year = document.getElementById("year").value;
-    const branch = document.getElementById("branch").value;
-    const time = document.getElementById("time").value;
-    const date = document.getElementById("date").value;
-
-    if (!year) {
-      showMessageBox("Year of study could not be determined. Please select manually if needed.");
+  const rollno = document.getElementById("rollno").value.trim().toUpperCase();
+  let reason = document.getElementById("reason").value.trim();
+  if (reason === "Others") {
+    reason = document.getElementById("otherReason").value.trim();
+    if (!reason) {
+      showMessageBox("Please specify the reason for 'Others'.");
       return;
-    }
-    if (!branch) {
-      showMessageBox("Branch could not be determined. Please select manually if needed.");
-      return;
-    }
-
-    const formData = { rollno, reason, year, branch, time, date };
-
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/pass/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(formData)
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || "Failed to create pass");
-      }
-
-      showMessageBox("Pass issued successfully!");
-      document.getElementById("createPassForm").reset();
-      document.getElementById("otherReasonBox").style.display = "none";
-      document.getElementById("otherReason").value = "";
-
-      const now = new Date();
-      const localTime = now.toTimeString().slice(0, 5);
-      const today = now.toISOString().split("T")[0];
-      document.getElementById("time").value = localTime;
-      document.getElementById("date").value = today;
-
-    } catch (err) {
-      console.error("Error creating pass:", err);
-      showMessageBox(`Error creating pass: ${err.message}. Please try again.`);
     }
   }
+
+  const year = document.getElementById("year").value;
+  const branch = document.getElementById("branch").value;
+  const time = document.getElementById("time").value;
+  const date = document.getElementById("date").value;
+
+  if (!year) {
+    showMessageBox("Year of study could not be determined. Please select manually if needed.");
+    return;
+  }
+  if (!branch) {
+    showMessageBox("Branch could not be determined. Please select manually if needed.");
+    return;
+  }
+
+  // 🔍 Check pass count for this rollno in current month
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/pass/hod/history`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch pass history.");
+
+    const data = await res.json();
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    const thisStudentPasses = data.filter(pass => 
+      pass.rollno.toUpperCase() === rollno &&
+      new Date(pass.date).getMonth() === currentMonth &&
+      new Date(pass.date).getFullYear() === currentYear
+    );
+
+    if (thisStudentPasses.length >= 3) {
+      alert(`⚠️ Limit Exceeded: This student already has ${thisStudentPasses.length} passes this month.`);
+      return;
+    }
+  } catch (err) {
+    console.error("Error checking pass count:", err);
+    showMessageBox("Could not verify pass count. Please try again.");
+    return;
+  }
+
+  // ✅ If under limit, proceed to create pass
+  const formData = { rollno, reason, year, branch, time, date };
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/pass/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || "Failed to create pass");
+    }
+
+    showMessageBox("Pass issued successfully!");
+    document.getElementById("createPassForm").reset();
+    document.getElementById("otherReasonBox").style.display = "none";
+    document.getElementById("otherReason").value = "";
+
+    const now = new Date();
+    const localTime = now.toTimeString().slice(0, 5);
+    const today = now.toISOString().split("T")[0];
+    document.getElementById("time").value = localTime;
+    document.getElementById("date").value = today;
+
+  } catch (err) {
+    console.error("Error creating pass:", err);
+    showMessageBox(`Error creating pass: ${err.message}. Please try again.`);
+  }
+}
+
 
   async function loadUncheckedPasses() {
     const tbody = document.querySelector("#requestsView tbody");
