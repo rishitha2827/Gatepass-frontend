@@ -194,6 +194,8 @@
             window.location.href = "dashboard.html";
           } else if (payload.role.toLowerCase() === "watchman") {
             window.location.href = "watchman.html";
+          } else if (payload.role.toLowerCase() === "principal") { // Added for principal
+            window.location.href = "principal_dashboard.html";
           } else {
             alert("Unknown role: " + payload.role);
           }
